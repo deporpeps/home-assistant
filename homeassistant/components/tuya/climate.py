@@ -19,7 +19,7 @@ from homeassistant.components.climate.const import (
 from homeassistant.const import (
     ATTR_TEMPERATURE,
     CONF_PLATFORM,
-    PRECISION_WHOLE,
+    PRECISION_HALVES,
     TEMP_CELSIUS,
     TEMP_FAHRENHEIT,
 )
@@ -104,7 +104,7 @@ class TuyaClimateEntity(TuyaDevice, ClimateEntity):
     @property
     def precision(self):
         """Return the precision of the system."""
-        return PRECISION_WHOLE
+        return PRECISION_HALVES
 
     @property
     def temperature_unit(self):
@@ -133,12 +133,11 @@ class TuyaClimateEntity(TuyaDevice, ClimateEntity):
     @property
     def current_temperature(self):
         """Return the current temperature."""
-        return self._tuya.current_temperature()
-
+        return self._tuya.current_temperature() / 2.0
     @property
     def target_temperature(self):
         """Return the temperature we try to reach."""
-        return self._tuya.target_temperature()
+        return self._tuya.target_temperature() / 2.0
 
     @property
     def target_temperature_step(self):
